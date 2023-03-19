@@ -16,6 +16,7 @@ function Login() {
       question="Don't have an account?"
       action="Signup"
       link={"/signup"}
+      buttonText="Login"
     />
   );
 }

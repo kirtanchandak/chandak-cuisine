@@ -1,10 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 
 function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:5000/auth/register", {
+        username,
+        password,
+      });
+      alert("Account created successfully, now login!");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Form
@@ -16,6 +30,8 @@ function SignUp() {
       question="Already have an account?"
       action="Login"
       link="/login"
+      buttonText="Create Account"
+      onSubmit={onSubmit}
     />
   );
 }
@@ -27,10 +43,12 @@ export const Form = ({
   setUsername,
   password,
   setPassword,
+  buttonText,
   heading,
   question,
   action,
   link,
+  onSubmit,
 }) => {
   return (
     <div>
@@ -86,8 +104,9 @@ export const Form = ({
                   <button
                     type="submit"
                     class="w-full text-black bg-blue-500 hover:bg-blue-600 focus:outline-nonfocus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                    onClick={onSubmit}
                   >
-                    Sign in
+                    {buttonText}
                   </button>
                   <p class="text-md font-light text-gray-500 dark:text-gray-400">
                     {question} {""}
