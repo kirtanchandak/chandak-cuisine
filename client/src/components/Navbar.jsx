@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useCookies } from "react-cookie";
 
 function Navbar() {
+  const [cookies, setCookies] = useCookies(["access_token"]);
   const [navbar, setNavbar] = useState(false);
   return (
     <div>
@@ -70,16 +72,24 @@ function Navbar() {
                     Saved Recipe
                   </Link>
                 </li>
-                <li className="pb-1 py-2 md:px-6 text-center">
-                  <Link href="/" onClick={() => setNavbar(!navbar)}>
-                    <Link
-                      className="px-3 py-1.5 rounded-full bg-gray-800 hover:bg-gray-700 text-white"
-                      to="/login"
-                    >
-                      login
+                {!cookies.access_token ? (
+                  <li className="pb-1 py-2 md:px-6 text-center">
+                    <Link href="/" onClick={() => setNavbar(!navbar)}>
+                      <Link
+                        className="px-3 py-1.5 rounded-full bg-gray-800 hover:bg-gray-700 text-white"
+                        to="/login"
+                      >
+                        login
+                      </Link>
                     </Link>
-                  </Link>
-                </li>
+                  </li>
+                ) : (
+                  <li className="pb-1 py-2 md:px-6 text-center">
+                    <button className="px-3 py-1.5 rounded-full bg-gray-800 hover:bg-gray-700 text-white">
+                      Logout
+                    </button>
+                  </li>
+                )}
               </ul>
             </div>
           </div>
