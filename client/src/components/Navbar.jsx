@@ -2,10 +2,18 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
   const [cookies, setCookies] = useCookies(["access_token"]);
   const [navbar, setNavbar] = useState(false);
+
+  const navigate = useNavigate();
+  const logout = () => {
+    setCookies(["access_token"], "");
+    window.localStorage.removeItem("userID");
+    navigate("/login");
+  };
   return (
     <div>
       <nav className="w-full top-0 left-0 right-0 z-10 py-1">
@@ -85,7 +93,10 @@ function Navbar() {
                   </li>
                 ) : (
                   <li className="pb-1 py-2 md:px-6 text-center">
-                    <button className="px-3 py-1.5 rounded-full bg-gray-800 hover:bg-gray-700 text-white">
+                    <button
+                      className="px-3 py-1.5 rounded-full bg-gray-800 hover:bg-gray-700 text-white"
+                      onClick={logout}
+                    >
                       Logout
                     </button>
                   </li>
