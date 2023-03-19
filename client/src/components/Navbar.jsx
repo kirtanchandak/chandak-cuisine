@@ -74,7 +74,7 @@ function Navbar() {
                   <Link href="/" onClick={() => setNavbar(!navbar)}>
                     <Link
                       className="px-3 py-1.5 rounded-full bg-gray-800 hover:bg-gray-700 text-white"
-                      to="/auth"
+                      to="/login"
                     >
                       login
                     </Link>
