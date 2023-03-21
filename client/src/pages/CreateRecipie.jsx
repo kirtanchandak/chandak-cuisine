@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 function CreateRecipie() {
   const [recipe, setRecipe] = useState({
@@ -7,7 +8,7 @@ function CreateRecipie() {
     instructions: "",
     image: "",
     cookingTime: 0,
-    userOwner: 0,
+    userOwner: window.localStorage.getItem("userID"),
   });
 
   const handleChange = (e) => {
@@ -25,7 +26,16 @@ function CreateRecipie() {
     ingridients[idx] = value;
     setRecipe({ ...recipe, ingridients });
   };
-  console.log(recipe);
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:5000/recipes", recipe);
+      alert("Recipe added!");
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <div className="bg-blue-200 min-h-screen flex items-center">
       <div className="w-full">
@@ -33,7 +43,7 @@ function CreateRecipie() {
           Fill out our form
         </h2>
         <div className="bg-white p-10 rounded-lg shadow md:w-3/4 mx-auto lg:w-1/2">
-          <form action="">
+          <form onSubmit={onSubmit}>
             <div className="mb-5">
               <label className="block mb-2 font-bold text-gray-600">Name</label>
               <input
@@ -57,7 +67,7 @@ function CreateRecipie() {
                     key={idx}
                     name="ingridients"
                     value={ingridient}
-                    className="border border-gray-300 shadow p-2 rounded "
+                    className="border border-gray-300 shadow p-2 rounded"
                     onChange={(e) => handleSingleIngridientChange(e, idx)}
                   ></input>
                 ))}
@@ -89,8 +99,8 @@ function CreateRecipie() {
             </label>
             <input
               type="text"
-              id="imageurl"
-              name="imageurl"
+              id="image"
+              name="image"
               placeholder="https://example.com/image.png"
               className="border border-red-300 shadow p-3 w-full rounded mb-5"
               onChange={handleChange}
