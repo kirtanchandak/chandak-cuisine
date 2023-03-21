@@ -1,32 +1,78 @@
+import { useState } from "react";
+
 function CreateRecipie() {
+  const [recipe, setRecipe] = useState({
+    name: "",
+    ingridients: [],
+    instructions: "",
+    image: "",
+    cookingTime: 0,
+    userOwner: 0,
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setRecipe({ ...recipe, [name]: value });
+  };
+
+  const addIngridient = () => {
+    setRecipe({ ...recipe, ingridients: [...recipe.ingridients, ""] });
+  };
+
+  const handleSingleIngridientChange = (e, idx) => {
+    const { value } = e.target;
+    const ingridients = recipe.ingridients;
+    ingridients[idx] = value;
+    setRecipe({ ...recipe, ingridients });
+  };
+  console.log(recipe);
   return (
-    <div class="bg-blue-200 min-h-screen flex items-center">
-      <div class="w-full">
-        <h2 class="text-center text-blue-400 font-bold text-2xl uppercase mb-10">
+    <div className="bg-blue-200 min-h-screen flex items-center">
+      <div className="w-full">
+        <h2 className="text-center text-blue-400 font-bold text-2xl uppercase mb-10">
           Fill out our form
         </h2>
-        <div class="bg-white p-10 rounded-lg shadow md:w-3/4 mx-auto lg:w-1/2">
+        <div className="bg-white p-10 rounded-lg shadow md:w-3/4 mx-auto lg:w-1/2">
           <form action="">
-            <div class="mb-5">
-              <label for="name" className="block mb-2 font-bold text-gray-600">
-                Name
-              </label>
+            <div className="mb-5">
+              <label className="block mb-2 font-bold text-gray-600">Name</label>
               <input
                 type="text"
                 id="name"
                 name="name"
                 placeholder="Put in your fullname."
-                class="border border-gray-300 shadow p-3 w-full rounded mb-"
+                className="border border-gray-300 shadow p-3 w-full rounded"
+                onChange={handleChange}
               />
             </div>
             <div className="mb-5">
-              <label htmlFor="" className="block mb-2 font-bold text-gray-600">
+              <label className="block mb-2 font-bold text-gray-600">
                 Ingridients
               </label>
+              <div className="flex flex-col space-y-1">
+                {recipe.ingridients.map((ingridient, idx) => (
+                  <input
+                    type="text"
+                    placeholder="add ingridient"
+                    key={idx}
+                    name="ingridients"
+                    value={ingridient}
+                    className="border border-gray-300 shadow p-2 rounded "
+                    onChange={(e) => handleSingleIngridientChange(e, idx)}
+                  ></input>
+                ))}
+                <button
+                  className="bg-blue-500 text-white font-bold px-2 py-2 rounded-lg text-sm"
+                  onClick={addIngridient}
+                  type="button"
+                >
+                  Add Ingridients
+                </button>
+              </div>
             </div>
 
-            <div class="mb-5">
-              <label for="twitter" class="block mb-2 font-bold text-gray-600">
+            <div className="mb-5">
+              <label className="block mb-2 font-bold text-gray-600">
                 Instructions
               </label>
               <input
@@ -34,10 +80,11 @@ function CreateRecipie() {
                 id="instructions"
                 name="instructions"
                 placeholder="How to cook this!"
-                class="border border-red-300 shadow p-3 w-full rounded"
+                className="border border-red-300 shadow p-3 w-full rounded"
+                onChange={handleChange}
               />
             </div>
-            <label for="twitter" class="block mb-2 font-bold text-gray-600">
+            <label className="block mb-2 font-bold text-gray-600">
               Image URL
             </label>
             <input
@@ -45,9 +92,10 @@ function CreateRecipie() {
               id="imageurl"
               name="imageurl"
               placeholder="https://example.com/image.png"
-              class="border border-red-300 shadow p-3 w-full rounded mb-5"
+              className="border border-red-300 shadow p-3 w-full rounded mb-5"
+              onChange={handleChange}
             />
-            <label for="twitter" class="block mb-2 font-bold text-gray-600">
+            <label className="block mb-2 font-bold text-gray-600">
               Cooking Time (in mins)
             </label>
             <input
@@ -55,11 +103,12 @@ function CreateRecipie() {
               id="cookingtime"
               name="cookingtime"
               placeholder="3 mins⏱️"
-              class="border border-red-300 shadow p-3 w-full rounded mb-"
+              className="border border-red-300 shadow p-3 w-full rounded mb-"
+              onChange={handleChange}
             />
 
             <button
-              class="block w-full bg-blue-500 text-white font-bold p-4 rounded-lg mt-7"
+              className="block w-full bg-blue-500 text-white font-bold p-4 rounded-lg mt-7"
               type="submit"
             >
               Submit
