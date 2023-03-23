@@ -1,7 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function CreateRecipie() {
+  const navigate = useNavigate();
   const [recipe, setRecipe] = useState({
     name: "",
     ingridients: [],
@@ -31,6 +33,7 @@ function CreateRecipie() {
     e.preventDefault();
     try {
       await axios.post("http://localhost:5000/recipes", recipe);
+      navigate("/");
       alert("Recipe added!");
     } catch (err) {
       console.error(err);
