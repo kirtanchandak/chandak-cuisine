@@ -1,9 +1,12 @@
 import axios from "axios";
 import React from "react";
 import { useState, useEffect } from "react";
+import { useGetUserID } from "../hooks/getLocalUserID";
 
 function Home() {
+  const userID = useGetUserID();
   const [recipes, setRecipes] = useState([]);
+  const [savedRecipes, setSavedRecipes] = useState([]);
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
@@ -16,6 +19,18 @@ function Home() {
     };
     fetchRecipes();
   }, []);
+
+  const saveRecipe = async (recipeID) => {
+    try {
+      const response = await axios.put("http://localhost:5000/recipes", {
+        recipeID,
+        userID,
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div>
       <h1 className="text-center py-6 font-bold text-5xl font-mono">Recipes</h1>
@@ -28,9 +43,18 @@ function Home() {
                   <img className="rounded-t-lg" src={recipe.image} alt="" />
                 </a>
                 <div className="p-5">
-                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    {recipe.name}
-                  </h5>
+                  <div className="flex justify-between">
+                    <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                      {recipe.name}
+                    </h5>
+                    <button
+                      className="mb-1 text-white bg-blue-700 rounded-lg hover:bg-blue-800 px-2"
+                      onClick={() => saveRecipe(recipe._id)}
+                    >
+                      Save🔖
+                    </button>
+                  </div>
+
                   <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
                     {recipe.instructions}
                   </p>

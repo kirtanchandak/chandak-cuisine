@@ -1,8 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useGetUserID } from "../hooks/getLocalUserID";
 
 function CreateRecipie() {
+  const userID = useGetUserID();
   const navigate = useNavigate();
   const [recipe, setRecipe] = useState({
     name: "",
@@ -10,7 +12,7 @@ function CreateRecipie() {
     instructions: "",
     image: "",
     cookingTime: 0,
-    userOwner: window.localStorage.getItem("userID"),
+    userOwner: userID,
   });
 
   const handleChange = (e) => {
