@@ -14,6 +14,15 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/savedRecipes/:userID", async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.params.userID);
+    res.json({ savedRecipes: user?.savedRecipes });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 router.post("/", async (req, res) => {
   const newRecipe = new RecipeModel(req.body);
   try {

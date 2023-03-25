@@ -17,7 +17,20 @@ function Home() {
         console.log(err);
       }
     };
+
+    const fetchsavedRecipes = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/recipes/savedRecipes/${userID}`
+        );
+        setSavedRecipes(response.data.savedRecipes);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     fetchRecipes();
+    fetchsavedRecipes();
   }, []);
 
   const saveRecipe = async (recipeID) => {
@@ -31,6 +44,8 @@ function Home() {
       console.log(err);
     }
   };
+
+  const isRecipeSaved = (id) => savedRecipes.includes(id);
   return (
     <div>
       <h1 className="text-center py-6 font-bold text-5xl font-mono">Recipes</h1>
@@ -47,12 +62,18 @@ function Home() {
                     <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                       {recipe.name}
                     </h5>
-                    <button
-                      className="mb-1 text-white bg-blue-700 rounded-lg hover:bg-blue-800 px-2"
-                      onClick={() => saveRecipe(recipe._id)}
-                    >
-                      Save🔖
-                    </button>
+                    {isRecipeSaved(recipe._id) ? (
+                      <button className="mb-1 text-white bg-blue-700 rounded-lg hover:bg-blue-800 px-2">
+                        Saved🔖
+                      </button>
+                    ) : (
+                      <button
+                        className="mb-1 text-white bg-blue-700 rounded-lg hover:bg-blue-800 px-2"
+                        onClick={() => saveRecipe(recipe._id)}
+                      >
+                        Save🔖
+                      </button>
+                    )}
                   </div>
 
                   <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
