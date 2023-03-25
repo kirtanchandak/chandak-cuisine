@@ -20,7 +20,7 @@ function SavedRecipe() {
     fetchSavedRecipes();
   }, []);
   return (
-    <div>
+    <div className="flex justify-center items-center">
       <ul className="flex flex-col space-y-10">
         {savedRecipes.map((recipe) => (
           <li key={recipe._id} className="">

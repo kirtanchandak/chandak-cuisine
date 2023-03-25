@@ -22,7 +22,7 @@ function Navbar() {
             <div className="flex items-center justify-between py-3 md:py-5 md:block ml-5">
               {/* LOGO */}
               <Link className="font-bold text-xl" to="/">
-                kirtanchandak
+                chandakcuisine🍉
               </Link>
               {/* HAMBURGER BUTTON FOR MOBILE */}
               <div className="md:hidden">
@@ -71,15 +71,20 @@ function Navbar() {
                     Create Recipe
                   </Link>
                 </li>
-                <li className="pb-0 py-2 md:px-6 text-center text-gray-800 hover:text-gray-600 font-bold">
-                  <Link
-                    to="/saved-recipe"
-                    onClick={() => setNavbar(!navbar)}
-                    className=""
-                  >
-                    Saved Recipe
-                  </Link>
-                </li>
+                {!cookies.access_token ? (
+                  <div></div>
+                ) : (
+                  <li className="pb-0 py-2 md:px-6 text-center text-gray-800 hover:text-gray-600 font-bold">
+                    <Link
+                      to="/saved-recipe"
+                      onClick={() => setNavbar(!navbar)}
+                      className=""
+                    >
+                      Saved Recipe
+                    </Link>
+                  </li>
+                )}
+
                 {!cookies.access_token ? (
                   <li className="pb-1 py-2 md:px-6 text-center">
                     <Link href="/" onClick={() => setNavbar(!navbar)}>
